@@ -36,3 +36,21 @@ def process_command(client_name, role, command):
         if not files:
             return "Folderi eshte bosh."
         return "File ne server:\n" + "\n".join(files)
+    
+# READ (lejohet per krejt klientet)
+    elif main_command == "READ":
+        if len(parts) < 2:
+            return "Perdorimi: READ emri_file.txt"
+
+        filename = parts[1]
+        filepath = os.path.join(SERVER_FOLDER, filename)
+
+        if not os.path.exists(filepath):
+            return "File nuk ekziston."
+
+        try:
+            with open(filepath, "r", encoding="utf-8") as f:
+                content = f.read()
+            return "Permbajtja e file-it '{}':\n{}".format(filename, content)
+        except Exception as e:
+            return "Gabim gjate leximit: {}".format(str(e))
