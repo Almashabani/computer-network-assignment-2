@@ -22,3 +22,17 @@ if not os.path.exists(SERVER_FOLDER):
 
 # Klienti admin 
 ADMIN_CLIENTS = ["John"]
+
+def process_command(client_name, role, command):
+    parts = command.strip().split(" ", 2)
+    if not parts:
+        return "Komande e zbrazet."
+
+    main_command = parts[0].upper()
+
+    # LIST (lejohet per krejt klientet)
+    if main_command == "LIST":
+        files = os.listdir(SERVER_FOLDER)
+        if not files:
+            return "Folderi eshte bosh."
+        return "File ne server:\n" + "\n".join(files)
