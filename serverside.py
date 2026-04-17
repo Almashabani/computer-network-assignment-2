@@ -14,3 +14,11 @@ print("Socketi eshte i lidhur me IP Addressen specifike {} dhe me portin {}".for
 
 mySocket.listen(5)
 print("Jemi ne pritje te perdoruesve")
+
+# Folderi ku klientet kane casje
+SERVER_FOLDER = "server_files"
+if not os.path.exists(SERVER_FOLDER):
+    os.makedirs(SERVER_FOLDER)
+
+# Klienti admin 
+ADMIN_CLIENTS = ["John"]
