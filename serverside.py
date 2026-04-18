@@ -73,3 +73,38 @@ def process_command(client_name, role, command):
             return "Shkrimi ne file '{}' u krye me sukses.".format(filename)
         except Exception as e:
             return "Gabim gjate shkrimit: {}".format(str(e))
+        
+
+        
+        elif main_command == "EXEC":
+    if role != "admin":
+        return "Nuk keni privilegj EXECUTE. Ju keni vetem READ permission."
+
+    if len(parts) < 2:
+        return "Perdorimi: EXEC emri_file.py"
+
+    filename = parts[1]
+    filepath = os.path.join(SERVER_FOLDER, filename)
+
+    if not os.path.exists(filepath):
+        return "File nuk ekziston per ekzekutim."
+
+    try:
+        result = subprocess.run(
+            ["python", filepath],
+            capture_output=True,
+            text=True,
+            timeout=10
+        )
+        output = result.stdout if result.stdout else ""
+        errors = result.stderr if result.stderr else ""
+
+        return "Rezultati i EXEC:\nSTDOUT:\n{}\nSTDERR:\n{}".format(output, errors)
+    except Exception as e:
+        return "Gabim gjate ekzekutimit: {}".format(str(e))
+
+elif main_command == "EXIT":
+    return "DISCONNECT"
+
+else:
+    return "Komande e panjohur. Komandat: LIST, READ, WRITE, EXEC, EXIT"       
