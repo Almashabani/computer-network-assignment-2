@@ -22,7 +22,7 @@ if not os.path.exists(SERVER_FOLDER):
     os.makedirs(SERVER_FOLDER)
 
 # Klienti admin 
-ADMIN_KEY = ["NETWORKADMIN2026"]
+ADMIN_KEY = "NETWORKADMIN2026"
 
 def process_command(client_name, role, command):
     parts = command.strip().split(" ", 2)
@@ -34,9 +34,7 @@ def process_command(client_name, role, command):
     # LIST (lejohet per krejt klientet)
     if main_command == "LIST":
         files = os.listdir(SERVER_FOLDER)
-        if not files:
-            return "Folderi eshte bosh."
-        return "File ne server:\n" + "\n".join(files)
+        return "File ne server:\n" + "\n".join(files) if files else "Folderi bosh."
     
 # READ (lejohet per krejt klientet)
     elif main_command == "READ":
