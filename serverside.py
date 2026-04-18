@@ -2,6 +2,7 @@
 import socket
 import os
 import subprocess
+import threading
 
 mySocket = socket.socket(family=socket.AF_INET, type=socket.SOCK_STREAM, proto=0, fileno=None)
 print("Socketi eshte gjeneruar")
@@ -13,7 +14,7 @@ mySocket.bind((hostname, portno))
 print("Socketi eshte i lidhur me IP Addressen specifike {} dhe me portin {}".format(hostname, portno))
 
 mySocket.listen(5)
-print("Jemi ne pritje te perdoruesve")
+print("Serveri eshte ne pritje te perdoruesve..")
 
 # Folderi ku klientet kane casje
 SERVER_FOLDER = "server_files"
@@ -21,11 +22,11 @@ if not os.path.exists(SERVER_FOLDER):
     os.makedirs(SERVER_FOLDER)
 
 # Klienti admin 
-ADMIN_CLIENTS = ["John"]
+ADMIN_KEY = ["NETWORKADMIN2026"]
 
 def process_command(client_name, role, command):
     parts = command.strip().split(" ", 2)
-    if not parts:
+    if not parts or parts[0] == "":
         return "Komande e zbrazet."
 
     main_command = parts[0].upper()
