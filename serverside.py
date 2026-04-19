@@ -111,8 +111,4 @@ elif main_command == "EXEC":
         return str(e)
 
 
-        elif main_command == "EXIT":
-    return "DISCONNECT"
-
-else:
-    return "Komande e panjohur."
+       
