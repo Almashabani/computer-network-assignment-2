@@ -22,3 +22,33 @@ The system has been successfully tested in a real network environment using at l
 - Python 3  
 - Socket Programming (`socket` library)  
 - TCP Protocol  
+
+---
+
+## 🚀 How to Run
+
+### 1. Set the server IP address and port
+Open `serverside.py` and set:
+
+```python
+hostname = "YOUR_SERVER_IP"
+portno = YOUR_PORT
+```
+### 2. Configure the client
+Open `clientside.py` and set the same IP address and port as the server:
+
+```python
+hostname = "YOUR_SERVER_IP"
+portno = YOUR_PORT
+
+```
+## 💻 Commands
+
+### For all users:
+- LIST
+- READ filename.txt
+- EXIT
+
+### For admin only:
+- WRITE filename.txt some text
+- EXEC file.py
