@@ -1,5 +1,13 @@
 # 📡 TCP Client-Server Application
 
+## 👥 Group
+Grupi 5
+
+## 👥 Contributors
+- Alma Shabani  
+- Gjelbrim Morina 
+- Altin Sollova
+
 ## 📌 Description
 This project implements a simple TCP client-server communication system using Python.  
 The server listens for incoming client connections, processes requests, and sends responses back to the client.
