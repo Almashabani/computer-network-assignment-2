@@ -53,37 +53,47 @@ def process_command(client_name, role, command):
             return "Permbajtja e file-it '{}':\n{}".format(filename, content)
         except Exception as e:
             return "Gabim gjate leximit: {}".format(str(e))
-        
-    # WRITE (vetem admin)
+        # WRITE (admin)
     elif main_command == "WRITE":
         if role != "admin":
-            return "Nuk keni privilegj WRITE. Ju keni vetem READ permission."
+            return "Nuk keni privilegje."
 
         if len(parts) < 3:
-            return "Perdorimi: WRITE emri_file.txt teksti"
+            return "Perdor: WRITE file.txt tekst"
 
-        filename = parts[1]
-        text_to_write = parts[2]
-        filepath = os.path.join(SERVER_FOLDER, filename)
+        filepath = os.path.join(SERVER_FOLDER, parts[1])
 
         try:
             with open(filepath, "a", encoding="utf-8") as f:
-                f.write(text_to_write + "\n")
-            return "Shkrimi ne file '{}' u krye me sukses.".format(filename)
+                f.write(parts[2] + "\n")
+            return "Shkrimi u krye."
         except Exception as e:
-            return "Gabim gjate shkrimit: {}".format(str(e))
-        
-elif main_command == "WRITE":
-    if role != "admin":
-        return "Nuk keni privilegje."
+            return f"Gabim: {e}"
 
-    if len(parts) < 3:
-        return "Perdor: WRITE file.txt tekst"
+    # EXEC (admin)
+    elif main_command == "EXEC":
+        if role != "admin":
+            return "Nuk keni privilegje."
 
-    filepath = os.path.join(SERVER_FOLDER, parts[1])
-    with open(filepath, "a", encoding="utf-8") as f:
-        f.write(parts[2] + "\n")
+        if len(parts) < 2:
+            return "Perdor: EXEC file.py"
 
-    return "Shkrimi u krye."
+        filepath = os.path.join(SERVER_FOLDER, parts[1])
 
+        if not os.path.exists(filepath):
+            return "File nuk ekziston."
 
+        try:
+            result = subprocess.run(
+                ["python", filepath],
+                capture_output=True,
+                text=True,
+                timeout=10
+            )
+            return result.stdout + result.stderr
+        except Exception as e:
+            return str(e)
+
+    # EXIT
+    elif main_command == "EXIT":
+        return "DISCONNECT"
