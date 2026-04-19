@@ -94,6 +94,47 @@ def process_command(client_name, role, command):
         except Exception as e:
             return str(e)
 
-    # EXIT
+        # EXIT
     elif main_command == "EXIT":
         return "DISCONNECT"
+    else:
+        return "Komande e panjohur."
+
+
+def handle_client(client, addr):
+    print(f"Lidhje nga {addr}")
+
+    try:
+        data = client.recv(2048).decode().strip()
+
+        if "|" in data:
+            client_name, secret_key = data.split("|", 1)
+        else:
+            client_name = data
+            secret_key = ""
+
+        role = "admin" if secret_key == ADMIN_KEY else "read-only"
+
+        client.send(f"Pershendetje {client_name}, roli: {role}".encode())
+
+        while True:
+            msg = client.recv(2048).decode()
+            if not msg:
+                break
+
+            response = process_command(client_name, role, msg)
+
+            if response == "DISCONNECT":
+                client.send("Po mbyllet lidhja".encode())
+                break
+
+            client.send(response.encode())
+
+    finally:
+        client.close()
+        print(f"Lidhja u mbyll {addr}")
+
+
+while True:
+    client, addr = mySocket.accept()
+    threading.Thread(target=handle_client, args=(client, addr)).start()
